@@ -1,0 +1,9 @@
+<x-layout title="Access Denied">
+
+    <div class="text-center py-24">
+        <h1 class="text-9xl font-bold text-stone-200">403</h1>
+        <p class="text-2xl text-stone-600 mt-4 mb-8">You don't have permission to view this page.</p>
+        <a href="{{ route('posts.index') }}" class="bg-red-700 hover:bg-red-800 text-white px-6 py-3 rounded font-mono text-xs uppercase tracking-wider no-underline transition-colors">Back to Blog</a>
+    </div>
+
+</x-layout>

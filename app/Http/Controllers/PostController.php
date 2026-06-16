@@ -1,0 +1,97 @@
+<?php
+
+namespace App\Http\Controllers;
+use App\Models\Post;
+use App\Http\Requests\PostRequest;
+// use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
+class PostController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $posts = Post::published()
+        ->latest()
+        ->paginate(6);
+
+        return view('posts.index',compact('posts'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('posts.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(PostRequest $request)
+    {
+        $validated = $request->validated();
+        $validated['slug']=Str::slug($validated['title']);
+        $validated['published'] = $request->boolean('published');
+
+        Post::create($validated);
+
+        return redirect()
+        ->route('admin.posts.index')
+        ->with('success','Post created!');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $slug)
+    {
+        $post = Post::where('slug',$slug)
+        ->published()
+        ->firstOrFail();
+
+        return view('posts.show',compact('post'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Post $post)
+    {
+        return view('posts.edit',compact('post'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(PostRequest $request, Post $post)
+    {
+        $validated = $request->validated();
+        $validated['slug'] = Str::slug($validated['title']);
+        $validated['published'] = $request->boolean('published');
+
+        $post->update($validated);
+
+        return redirect()->route('admin.posts.index')->with('success','Post updated!');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Post $post)
+    {
+        $post->delete();
+        return redirect()
+        ->route('admin.posts.index')
+        ->with('success','Post deleted!');
+    }
+
+    public function adminIndex()
+    {
+        $posts = Post::latest()->paginate(10);
+        return view('posts.admin', compact('posts'));
+    }
+}
