@@ -13,10 +13,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::published()
-        ->latest()
-        ->paginate(6);
-
+        // $posts = Post::published()
+        // ->latest()
+        // ->paginate(6);
+        $posts = Post::with('user')->latest()->paginate(10);
         return view('posts.index',compact('posts'));
     }
 
@@ -34,13 +34,14 @@ class PostController extends Controller
     public function store(PostRequest $request)
     {
         $validated = $request->validated();
+        $validated['user_id']=auth()->id();
         $validated['slug']=Str::slug($validated['title']);
         $validated['published'] = $request->boolean('published');
 
         Post::create($validated);
 
         return redirect()
-        ->route('admin.posts.index')
+        ->route('posts.index')
         ->with('success','Post created!');
     }
 
@@ -75,7 +76,7 @@ class PostController extends Controller
 
         $post->update($validated);
 
-        return redirect()->route('admin.posts.index')->with('success','Post updated!');
+        return redirect()->route('posts.index')->with('success','Post updated!');
     }
 
     /**
@@ -85,13 +86,13 @@ class PostController extends Controller
     {
         $post->delete();
         return redirect()
-        ->route('admin.posts.index')
+        ->route('posts.index')
         ->with('success','Post deleted!');
     }
 
     public function adminIndex()
     {
-        $posts = Post::latest()->paginate(10);
+        $posts = Post::where('user_id', auth()->id())->latest()->paginate(10);
         return view('posts.admin', compact('posts'));
     }
 }

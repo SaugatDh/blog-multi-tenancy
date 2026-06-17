@@ -17,12 +17,16 @@ class Post extends Model
         'body',
         'excerpt',
         'published',
+        'user_id',
     ];
     protected $casts = [
         // converts 0 1 to boolean
         'published' => 'boolean',
     ];
-
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     protected static function booted():void{
         // creating and updating works before writing in db before create and update ie Runs before a new post is saved
         static::creating(function (Post $post){

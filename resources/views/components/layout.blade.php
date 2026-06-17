@@ -15,31 +15,19 @@
     <nav class="flex justify-between items-center max-w-3xl mx-auto py-6 px-4 border-b border-stone-200">
         <a href="{{ route('posts.index') }}" class="text-xl font-bold text-stone-900 no-underline hover:text-red-700">My Blog</a>
         <div class="flex gap-6 font-mono text-xs uppercase tracking-wider items-center">
-            <a href="{{ route('posts.index') }}" class="text-stone-500 hover:text-red-700 no-underline">Blog</a>
 
-            {{-- @auth
-                <a href="{{ route('admin.posts.index') }}" class="text-stone-500 hover:text-red-700 no-underline">Admin</a>
-                <form action="{{ route('logout') }}" method="POST" class="inline">
-                    @csrf
-                    <button type="submit" class="text-stone-500 hover:text-red-700 no-underline cursor-pointer bg-transparent border-none font-mono text-xs uppercase tracking-wider">Logout</button>
-                </form>
-            @else
-                <a href="{{ route('login') }}" class="text-stone-500 hover:text-red-700 no-underline">Login</a>
-                <a href="{{ route('register') }}" class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded no-underline">Register</a>
-            @endauth --}}
-
-            @auth
-                @if (auth()->user()->isAdmin())
-                    <a href="{{ route('admin.posts.index') }}" class="text-stone-500 hover:text-red-700 no-underline">Admin</a>
-                @endif
-                    <form action="{{ route('logout') }}" method="POST" class="inline">
-                        @csrf
-                        <button type="submit" class="text-stone-500 hover:text-red-700 no-underline cursor-pointer bg-transparent border-none font-mono text-xs uppercase tracking-wider">Logout</button>
-                    </form>
-                @else
-                    <a href="{{ route('login') }}" class="text-stone-500 hover:text-red-700 no-underline">Login</a>
-                    <a href="{{ route('register') }}" class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded no-underline">Register</a>
-                @endauth
+  @auth
+    <a href="{{ route('posts.index') }}" class="text-stone-500 hover:text-red-700 no-underline">Explore</a>
+    <a href="{{ route('posts.myblogs') }}" class="text-stone-500 hover:text-red-700 no-underline">My Blogs</a>
+    <form action="{{ route('logout') }}" method="POST" class="inline">
+        @csrf
+        <button type="submit" class="text-stone-500 hover:text-red-700 no-underline cursor-pointer bg-transparent border-none font-mono text-xs uppercase tracking-wider">Logout</button>
+    </form>
+@else
+<a href="{{ route('posts.index') }}" class="text-stone-500 hover:text-red-700 no-underline">Blog</a>
+    <a href="{{ route('login') }}" class="text-stone-500 hover:text-red-700 no-underline">Login</a>
+    <a href="{{ route('register') }}" class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded no-underline">Register</a>
+@endauth
 
         </div>
     </nav>

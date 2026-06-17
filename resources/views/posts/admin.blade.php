@@ -1,10 +1,8 @@
-<x-layout title="Admin — Posts">
-
+<x-layout title="User Posts">
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-2xl font-bold">All Posts</h1>
-        <a href="{{ route('admin.posts.create') }}" class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded font-mono text-xs uppercase tracking-wider no-underline">+ New Post</a>
+        <a href="{{ route('posts.create') }}" class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded font-mono text-xs uppercase tracking-wider no-underline">+ New Post</a>
     </div>
-
     <table class="w-full border-collapse">
         <thead>
             <tr>
@@ -30,8 +28,8 @@
                     <td class="py-3 px-4 font-mono text-xs text-stone-500">{{ $post->created_at->format('M d, Y') }}</td>
                     <td class="py-3 px-4">
                         <div class="flex gap-2 items-center">
-                            <a href="{{ route('admin.posts.edit', $post) }}" class="border border-red-700 text-red-700 hover:bg-red-700 hover:text-white px-3 py-1 rounded font-mono text-xs uppercase no-underline transition-colors">Edit</a>
-                            <form action="{{ route('admin.posts.destroy', $post) }}" method="POST" onsubmit="return confirm('Delete this post?')">
+                            <a href="{{ route('posts.edit', $post) }}" class="border border-red-700 text-red-700 hover:bg-red-700 hover:text-white px-3 py-1 rounded font-mono text-xs uppercase no-underline transition-colors">Edit</a>
+                            <form action="{{ route('posts.destroy', $post) }}" method="POST" onsubmit="return confirm('Delete this post?')">
                                 @csrf
                                 @method('DELETE')
                                 <button class="bg-red-900 hover:bg-red-950 text-white px-3 py-1 rounded font-mono text-xs uppercase transition-colors">Delete</button>
@@ -48,9 +46,7 @@
             @endforelse
         </tbody>
     </table>
-
     <div class="flex gap-2 mt-12 font-mono text-sm">
         {{ $posts->links() }}
     </div>
-
 </x-layout>

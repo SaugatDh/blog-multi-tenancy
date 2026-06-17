@@ -47,27 +47,23 @@ Route::middleware('guest')->group(function () {
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Admin
-Route::middleware('admin')
-->prefix('admin')
-->name('admin.')
+Route::middleware('auth')
+->prefix('posts')
+->name('posts.')
 ->group(function () {
     Route::post('/images/upload', [ImageController::class, 'upload'])->name('images.upload');
-    Route::get('/posts', [PostController::class, 'adminIndex'])->name('posts.index');
-    Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
-    Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
-    Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
-    Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+    Route::get('/', [PostController::class, 'adminIndex'])->name('myblogs');
+    Route::get('/create', [PostController::class, 'create'])->name('create');
+    Route::post('/posts', [PostController::class, 'store'])->name('store');
+    Route::get('/{post}/edit', [PostController::class, 'edit'])->name('edit');
+    Route::put('/{post}', [PostController::class, 'update'])->name('update');
+    Route::delete('/{post}', [PostController::class, 'destroy'])->name('destroy');
+
+    Route::post('/posts/{post}/like', [LikeController::class, 'toggle'])->name('like');
 });
 
-Route::middleware('auth')->group(function () {
+
     // Comments
     // Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
     // Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
     // Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
-
-    // Like
-    Route::post('/posts/{post}/like', [LikeController::class, 'toggle'])->name('posts.like');
-});
-
-

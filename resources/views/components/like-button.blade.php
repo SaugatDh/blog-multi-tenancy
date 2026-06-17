@@ -1,5 +1,4 @@
 @props(['post'])
-
 <div class="flex items-center gap-4 mb-6">
     @auth
         <form action="{{ route('posts.like', $post) }}" method="POST">
